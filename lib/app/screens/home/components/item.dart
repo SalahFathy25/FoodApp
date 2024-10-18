@@ -7,6 +7,7 @@ class Item {
   String longDescription;
   double price;
   double rate;
+  bool isFavourite;
   Item({
     required this.image,
     required this.detailsImage,
@@ -16,5 +17,6 @@ class Item {
     required this.longDescription,
     required this.price,
     required this.rate,
+    this.isFavourite = false,
   });
 }

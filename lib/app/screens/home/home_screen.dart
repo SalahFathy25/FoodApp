@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/app/screens/home/components/item.dart';
 import 'package:food_app/app/screens/home/widgets/appbar.dart';
 import 'package:food_app/app/screens/home/widgets/categories_part.dart';
 import 'package:food_app/app/screens/home/widgets/home_item.dart';
@@ -15,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List filteredItems = [];
+  String selectedCategory = 'All';
+  List<Item> filteredButtonsItems = homeItemData;
 
   @override
   void initState() {
@@ -22,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     filteredItems = homeItemData;
   }
 
-  void _filterItems(String query) {
+  void filterItems(String query) {
     setState(
       () {
         if (query.isEmpty) {
@@ -37,6 +40,29 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void filterButtonsItems(String category) {
+    setState(
+      () {
+        selectedCategory = category;
+        if (category == 'All') {
+          filteredItems = homeItemData;
+        } else {
+          filteredItems = homeItemData
+              .where((item) => item.title.contains(category))
+              .toList();
+        }
+      },
+    );
+  }
+
+  void toggleFavouriteStatus(Item item) {
+    setState(
+      () {
+        item.isFavourite = !item.isFavourite;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -46,8 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView(
             children: [
               appBar(),
-              SearchArea(onSearchChanged: _filterItems),
-              const CategoriesPart(),
+              SearchArea(onSearchChanged: filterItems),
+              CategoriesPart(
+                onCategorySelected: filterButtonsItems,
+              ),
               const SizedBox(height: 10),
               SizedBox(
                 width: double.infinity,
@@ -59,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   itemBuilder: (context, index) {
                     final item = filteredItems[index];
-                    return homeItemWidget(context, item);
+                    return homeItemWidget(context, item, toggleFavouriteStatus);
                   },
                   itemCount: filteredItems.length,
                 ),

@@ -5,8 +5,8 @@ import '../../../../core/utils/colors.dart';
 import '../components/item.dart';
 import 'favourite_icon.dart';
 
-Widget homeItemWidget(BuildContext context, Item item) {
-  return InkWell(
+Widget homeItemWidget(BuildContext context, Item item, Function onToggleFavourite) {
+  return GestureDetector(
     onTap: () {
       Navigator.push(
         context,
@@ -79,7 +79,10 @@ Widget homeItemWidget(BuildContext context, Item item) {
                 ],
               ),
               const Spacer(flex: 10),
-              const FavouriteIcon(),
+              FavouriteIcon(
+                isFavourite: item.isFavourite,
+                onToggleFavourite: () => onToggleFavourite(item),
+              ),
               const Spacer(),
             ],
           )

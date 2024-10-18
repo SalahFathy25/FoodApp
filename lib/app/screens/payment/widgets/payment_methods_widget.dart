@@ -28,132 +28,168 @@ class PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
           ),
         ),
         const SizedBox(height: 10),
-        Card(
-          color: cardSelected == 0
-              ? bigTextColor.withOpacity(0.9)
-              : const Color(0xffF3F4F6),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          elevation: 20,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/images/master_card.png',
-                      width: 80,
-                      height: 80,
-                    ),
-                    const SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Credit card',
-                          style: TextStyle(
-                            color:
-                                cardSelected == 0 ? Colors.white : Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: GoogleFonts.roboto().fontFamily,
+        GestureDetector(
+          onTap: () {
+            if (cardSelected == 0) {
+              setState(
+                () {
+                  cardSelected = null;
+                },
+              );
+            } else {
+              setState(
+                () {
+                  cardSelected = 0;
+                },
+              );
+            }
+          },
+          child: Card(
+            color: cardSelected == 0
+                ? bigTextColor.withOpacity(0.9)
+                : const Color(0xffF3F4F6),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            elevation: 20,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/images/master_card.png',
+                        width: 80,
+                        height: 80,
+                      ),
+                      const SizedBox(width: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Credit card',
+                            style: TextStyle(
+                              color: cardSelected == 0
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: GoogleFonts.roboto().fontFamily,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          '5105 **** **** 0505',
-                          style: TextStyle(
-                            color: const Color.fromARGB(255, 160, 160, 160),
-                            fontSize: 14,
-                            fontFamily: GoogleFonts.roboto().fontFamily,
-                            fontWeight: FontWeight.w500,
+                          const SizedBox(height: 8),
+                          Text(
+                            '5105 **** **** 0505',
+                            style: TextStyle(
+                              color: const Color.fromARGB(255, 160, 160, 160),
+                              fontSize: 14,
+                              fontFamily: GoogleFonts.roboto().fontFamily,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Radio<int?>(
-                  value: 0,
-                  groupValue: cardSelected,
-                  onChanged: (int? value) {
-                    setState(
-                      () {
-                        cardSelected = value;
-                      },
-                    );
-                  },
-                  activeColor: Colors.white,
-                ),
-              ],
+                        ],
+                      ),
+                    ],
+                  ),
+                  Radio<int?>(
+                    value: 0,
+                    groupValue: cardSelected,
+                    onChanged: (int? value) {
+                      setState(
+                        () {
+                          cardSelected = (cardSelected == value) ? null : value;
+                        },
+                      );
+                    },
+                    activeColor: Colors.white,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
         const SizedBox(height: 10),
-        Card(
-          color: cardSelected == 1
-              ? bigTextColor.withOpacity(0.9)
-              : const Color(0xffF3F4F6),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          elevation: 20,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/images/visa.png',
-                      width: 80,
-                      height: 80,
-                    ),
-                    const SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Debit card',
-                          style: TextStyle(
-                            color:
-                                cardSelected == 1 ? Colors.black : Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: GoogleFonts.roboto().fontFamily,
+        GestureDetector(
+          onTap: () {
+            if (cardSelected == 1) {
+              setState(
+                () {
+                  cardSelected = null;
+                },
+              );
+            } else {
+              setState(
+                () {
+                  cardSelected = 1;
+                },
+              );
+            }
+          },
+          child: Card(
+            color: cardSelected == 1
+                ? bigTextColor.withOpacity(0.9)
+                : const Color(0xffF3F4F6),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            elevation: 20,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/images/visa.png',
+                        width: 80,
+                        height: 80,
+                      ),
+                      const SizedBox(width: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Debit card',
+                            style: TextStyle(
+                              color: cardSelected == 1
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: GoogleFonts.roboto().fontFamily,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          '3566 **** **** 0505',
-                          style: TextStyle(
-                            color: const Color.fromARGB(255, 160, 160, 160),
-                            fontSize: 14,
-                            fontFamily: GoogleFonts.roboto().fontFamily,
-                            fontWeight: FontWeight.w500,
+                          const SizedBox(height: 8),
+                          Text(
+                            '3566 **** **** 0505',
+                            style: TextStyle(
+                              color: const Color.fromARGB(255, 160, 160, 160),
+                              fontSize: 14,
+                              fontFamily: GoogleFonts.roboto().fontFamily,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Radio<int?>(
-                  value: 1,
-                  groupValue: cardSelected,
-                  onChanged: (int? value) {
-                    setState(
-                      () {
-                        cardSelected = value;
-                      },
-                    );
-                  },
-                  activeColor: Colors.white,
-                ),
-              ],
+                        ],
+                      ),
+                    ],
+                  ),
+                  Radio<int?>(
+                    value: 1,
+                    groupValue: cardSelected,
+                    onChanged: (int? value) {
+                      setState(
+                        () {
+                          cardSelected = (cardSelected == value) ? null : value;
+                        },
+                      );
+                    },
+                    activeColor: Colors.white,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

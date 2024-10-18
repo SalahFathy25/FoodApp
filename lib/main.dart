@@ -4,8 +4,7 @@ import 'package:food_app/app/screens/login&signup%20screens/login_screen.dart';
 
 // import 'app/screens/details_screen/details_screen.dart';
 import 'app/screens/login&signup screens/signup_screen.dart';
-import 'app/screens/payment/payment_screen.dart';
-import 'app/screens/splash_screens/circle_animated_screen.dart';
+// import 'app/screens/splash_screens/circle_animated_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,8 +25,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // home: const CircleAnimatedScreen(),
       // home: const LoginScreen(),
-      // home: const HomeScreen(),
-      home: PaymentScreen(),
+      home: const HomeScreen(),
     );
   }
 }

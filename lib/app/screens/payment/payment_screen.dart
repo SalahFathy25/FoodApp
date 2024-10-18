@@ -29,8 +29,6 @@ class PaymentScreen extends StatelessWidget {
             orderSummaryWidget(),
             const SizedBox(height: 40),
             const PaymentMethodsWidget(),
-           
-            
             const SizedBox(height: 40),
             Row(
               children: [
@@ -107,6 +105,4 @@ class PaymentScreen extends StatelessWidget {
       ),
     );
   }
-
-  
 }

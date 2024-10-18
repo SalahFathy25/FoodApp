@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/colors.dart';
 
 class CategoriesPart extends StatefulWidget {
-  const CategoriesPart({super.key});
+  final Function(String) onCategorySelected;
+   const CategoriesPart({super.key, required this.onCategorySelected});
 
   @override
   State<CategoriesPart> createState() => _CategoriesPartState();
@@ -22,9 +23,12 @@ class _CategoriesPartState extends State<CategoriesPart> {
                 padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                 child: ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      selected = category;
-                    });
+                    setState(
+                      () {
+                        selected = category;
+                      },
+                    );
+                    widget.onCategorySelected(category);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: selected == category
