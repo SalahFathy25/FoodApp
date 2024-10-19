@@ -31,10 +31,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         child: ListView(
           children: [
-            Image.asset(
-              widget.item!.detailsImage,
-              width: 300,
-              height: 300,
+            Hero(
+              tag: widget.item!.id,
+              transitionOnUserGestures: true,
+              child: Image.asset(
+                widget.item!.detailsImage,
+                width: MediaQuery.of(context).size.width,
+                height: 300,
+              ),
             ),
             Text(
               widget.item!.detailsTitle,

@@ -5,13 +5,37 @@ import '../../../../core/utils/colors.dart';
 import '../components/item.dart';
 import 'favourite_icon.dart';
 
-Widget homeItemWidget(BuildContext context, Item item, Function onToggleFavourite) {
+Widget homeItemWidget(
+    BuildContext context, Item item, Function onToggleFavourite) {
   return GestureDetector(
     onTap: () {
+      // Navigator.push(
+      //   context,
+      //   PageRouteBuilder(
+      //     pageBuilder: (context, animation, secondaryAnimation) =>
+      //         DetailsScreen(item: item),
+      //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      //       return FadeTransition(
+      //         opacity: animation,
+      //         child: child,
+      //       );
+      //     },
+      //   ),
+      // );
       Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) => DetailsScreen(item: item),
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              DetailsScreen(item: item),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0.0, 1.0),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            );
+          },
         ),
       );
     },
@@ -35,10 +59,14 @@ Widget homeItemWidget(BuildContext context, Item item, Function onToggleFavourit
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
-            child: Image.asset(
-              item.image,
-              width: 120,
-              height: 150,
+            child: Hero(
+              tag: item.id,
+              transitionOnUserGestures: true,
+              child: Image.asset(
+                item.image,
+                width: 120,
+                height: 150,
+              ),
             ),
           ),
           Text(

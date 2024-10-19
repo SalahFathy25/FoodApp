@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class Item {
   String image;
   String detailsImage;
@@ -7,7 +8,9 @@ class Item {
   String longDescription;
   double price;
   double rate;
+  int id;
   bool isFavourite;
+
   Item({
     required this.image,
     required this.detailsImage,
@@ -17,6 +20,7 @@ class Item {
     required this.longDescription,
     required this.price,
     required this.rate,
+    required this.id,
     this.isFavourite = false,
   });
 }

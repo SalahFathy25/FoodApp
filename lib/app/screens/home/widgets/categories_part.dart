@@ -3,7 +3,7 @@ import '../../../../core/utils/colors.dart';
 
 class CategoriesPart extends StatefulWidget {
   final Function(String) onCategorySelected;
-   const CategoriesPart({super.key, required this.onCategorySelected});
+  const CategoriesPart({super.key, required this.onCategorySelected});
 
   @override
   State<CategoriesPart> createState() => _CategoriesPartState();
@@ -63,7 +63,8 @@ class _CategoriesPartState extends State<CategoriesPart> {
 
 List categories = [
   'All',
-  'Combos',
-  'Sliders',
-  'Classic',
+  'Cheese',
+  'Veggie',
+  'Chicken',
+  'Fried Chicken',
 ];

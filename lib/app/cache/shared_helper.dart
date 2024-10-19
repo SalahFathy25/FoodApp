@@ -1,16 +1,19 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:food_app/main_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/utils/functions.dart';
 import '../../core/utils/variables.dart';
-import '../screens/home/home_screen.dart';
+
+final SharedPreferences prefs =
+    SharedPreferences.getInstance() as SharedPreferences;
 
 class SharedHelper {
-  Future<void> saveUserData(
+  Future<String> saveUserData(
       BuildContext context, GlobalKey<FormState> formKey) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
     prefs.setString('firstName', firstNameController.text);
     prefs.setString('lastName', lastNameController.text);
     prefs.setString('email', emailController.text);
@@ -19,20 +22,25 @@ class SharedHelper {
     if (formKey.currentState!.validate() != false) {
       signupSuccess(context);
     }
+
+    return emailController.text +
+        passwordController.text +
+        firstNameController.text +
+        lastNameController.text;
   }
 
-  Future<void> loadUserData(BuildContext context) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<String> loadUserData(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
     String? savedEmail = prefs.getString('email');
     String? savedPassword = prefs.getString('password');
     String? savedName =
-        '${prefs.getString('firstName')} ${prefs.getString('lastName')}';
+        '${prefs.getString('firstName') ?? ''} ${prefs.getString('lastName') ?? ''}';
 
     if (savedEmail == emailController.text &&
         savedPassword == passwordController.text) {
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => MainPage()),
         (route) => false,
       );
       welcome(context, savedName);
@@ -41,5 +49,6 @@ class SharedHelper {
     } else {
       loginFailed(context);
     }
+    return savedName.trim();
   }
 }

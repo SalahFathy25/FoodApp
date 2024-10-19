@@ -12,11 +12,12 @@ List<Item> homeItemData = [
     rate: 4.9,
     price: 1.24,
     isFavourite: false,
+    id: 1,
   ),
   Item(
     detailsImage: 'assets/images/items/item_2_details.png',
     image: 'assets/images/items/item_2.png',
-    title: 'Combos Veggie Hamburger',
+    title: 'Veggie Hamburger',
     detailsTitle: 'Hamburger Veggie Burger',
     description: 'Veggie Burger',
     longDescription:
@@ -24,6 +25,7 @@ List<Item> homeItemData = [
     rate: 4.8,
     price: 1.24,
     isFavourite: false,
+    id: 2,
   ),
   Item(
     detailsImage: 'assets/images/items/item_3_details.png',
@@ -36,6 +38,7 @@ List<Item> homeItemData = [
     rate: 4.6,
     price: 1.24,
     isFavourite: false,
+    id: 3,
   ),
   Item(
     detailsImage: 'assets/images/items/item_4_details.png',
@@ -48,5 +51,6 @@ List<Item> homeItemData = [
     rate: 4.5,
     price: 1.24,
     isFavourite: false,
+    id: 4,
   ),
 ];
