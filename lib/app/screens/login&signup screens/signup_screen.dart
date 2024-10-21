@@ -14,7 +14,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/utils/colors.dart';
 import '../../../core/utils/variables.dart';
-import 'pick_image_screen.dart';
 import 'widgets/bottom_buttons_widget.dart';
 import 'widgets/logos_widget.dart';
 import 'widgets/or_text_widget.dart';
