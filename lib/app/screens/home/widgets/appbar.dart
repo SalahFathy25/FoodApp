@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import '../../../../core/utils/colors.dart';
@@ -33,7 +32,8 @@ Widget appBar({required String image}) {
           radius: 50,
           backgroundImage: image.isNotEmpty
               ? MemoryImage(base64Decode(image))
-              : const AssetImage('assets/images/no_image.jpg') as ImageProvider,
+              : const AssetImage('assets/images/no_image.webp')
+                  as ImageProvider,
         ),
       ),
     ],

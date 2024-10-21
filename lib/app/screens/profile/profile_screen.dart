@@ -163,7 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 radius: 60,
                 backgroundImage: profileImage != null
                     ? MemoryImage(profileImage!)
-                    : const AssetImage('assets/images/no_image.jpg')
+                    : const AssetImage('assets/images/no_image.webp')
                         as ImageProvider,
               ),
             ),
