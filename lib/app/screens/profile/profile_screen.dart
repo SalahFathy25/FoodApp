@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:food_app/core/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'widgets/build_text_field.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -14,14 +16,22 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   Uint8List? profileImage;
-  String? userName;
+  String userName = 'Guest';
+  String deliveryAddress = "10th of Ramadan";
+  String? email;
   TextEditingController userNameController = TextEditingController();
-  bool isEditable = false;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController deliveryAddressController = TextEditingController();
+
+  bool isUserNameEditable = false;
+  bool isEmailEditable = false;
+  bool isDeliveryAddressEditable = false;
 
   @override
   void initState() {
     super.initState();
     loadProfileData();
+    deliveryAddressController.text = deliveryAddress;
   }
 
   Future<void> loadProfileData() async {
@@ -35,32 +45,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     String? firstName = prefs.getString('firstName');
-  String? lastName = prefs.getString('lastName');
+    String? lastName = prefs.getString('lastName');
+    String? emailPref = prefs.getString('email');
 
-  if (firstName != null && lastName != null) {
-    String savedName = '$firstName $lastName';
     setState(() {
-      userName = savedName;
-      userNameController.text = savedName;
+      userName = (firstName != null && lastName != null)
+          ? '$firstName $lastName'
+          : 'Guest';
+      userNameController.text = userName;
+      email = emailPref;
+      emailController.text = emailPref ?? '';
     });
-  } else {
-    setState(() {
-      userName = 'Guest';
-      userNameController.text = 'Guest';
-    });
-  }
   }
 
   @override
   void dispose() {
     userNameController.dispose();
+    emailController.dispose();
+    deliveryAddressController.dispose();
     super.dispose();
   }
 
-  void toggleEditable() {
-    setState(() {
-      isEditable = !isEditable;
-    });
+  void toggleUserNameEditable() {
+    setState(
+      () {
+        isUserNameEditable = !isUserNameEditable;
+      },
+    );
+  }
+
+  void toggleEmailEditable() {
+    setState(
+      () {
+        isEmailEditable = !isEmailEditable;
+      },
+    );
+  }
+
+  void toggleDeliveryAddressEditable() {
+    setState(
+      () {
+        isDeliveryAddressEditable = !isDeliveryAddressEditable;
+      },
+    );
   }
 
   @override
@@ -84,26 +111,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 70),
-                TextFormField(
+                buildTextField(
+                  label: 'Name',
                   controller: userNameController,
-                  style: const TextStyle(color: Colors.black),
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: toggleEditable,
-                      icon: Icon(
-                        isEditable ? Icons.check : Icons.edit,
-                        color: Colors.grey,
-                      ),
+                  readOnly: !isUserNameEditable,
+                  suffixIcon: IconButton(
+                    onPressed: toggleUserNameEditable,
+                    icon: Icon(
+                      isUserNameEditable ? Icons.check : Icons.edit,
+                      color: primaryColor,
                     ),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    labelText: 'Name',
-                    labelStyle: const TextStyle(color: Colors.grey),
                   ),
-                  readOnly: !isEditable,
+                ),
+                const SizedBox(height: 20),
+                buildTextField(
+                  label: 'Email',
+                  controller: emailController,
+                  readOnly: !isEmailEditable,
+                  suffixIcon: IconButton(
+                    onPressed: toggleEmailEditable,
+                    icon: Icon(
+                      isEmailEditable ? Icons.check : Icons.edit,
+                      color: primaryColor,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                buildTextField(
+                  label: 'Delivery Address',
+                  controller: deliveryAddressController,
+                  readOnly: !isDeliveryAddressEditable,
+                  suffixIcon: IconButton(
+                    onPressed: toggleDeliveryAddressEditable,
+                    icon: Icon(
+                      isDeliveryAddressEditable ? Icons.check : Icons.edit,
+                      color: primaryColor,
+                    ),
+                  ),
                 ),
               ],
             ),
