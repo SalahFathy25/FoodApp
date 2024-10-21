@@ -51,6 +51,4 @@ class SharedHelper {
     }
     return savedName.trim();
   }
-
-  
 }

@@ -16,19 +16,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Uint8List? profileImage;
   String? userName;
   TextEditingController userNameController = TextEditingController();
+  bool isEditable = false;
 
   @override
   void initState() {
     super.initState();
-    _loadProfileData();
+    loadProfileData();
   }
 
-  Future<void> saveUserName(String name) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('userName', name);
-  }
-
-  Future<void> _loadProfileData() async {
+  Future<void> loadProfileData() async {
     final prefs = await SharedPreferences.getInstance();
 
     String? base64Image = prefs.getString('profileImage');
@@ -38,19 +34,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
     }
 
-    String? savedName = prefs.getString('userName');
-    if (savedName != null) {
-      setState(() {
-        userName = savedName;
-        userNameController.text = savedName;
-      });
-    }
+    String? firstName = prefs.getString('firstName');
+  String? lastName = prefs.getString('lastName');
+
+  if (firstName != null && lastName != null) {
+    String savedName = '$firstName $lastName';
+    setState(() {
+      userName = savedName;
+      userNameController.text = savedName;
+    });
+  } else {
+    setState(() {
+      userName = 'Guest';
+      userNameController.text = 'Guest';
+    });
+  }
   }
 
   @override
   void dispose() {
     userNameController.dispose();
     super.dispose();
+  }
+
+  void toggleEditable() {
+    setState(() {
+      isEditable = !isEditable;
+    });
   }
 
   @override
@@ -77,20 +87,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 TextFormField(
                   controller: userNameController,
                   style: const TextStyle(color: Colors.black),
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: toggleEditable,
+                      icon: Icon(
+                        isEditable ? Icons.check : Icons.edit,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     filled: true,
                     fillColor: Colors.white,
                     labelText: 'Name',
-                    labelStyle: TextStyle(color: Colors.grey),
+                    labelStyle: const TextStyle(color: Colors.grey),
                   ),
-                  initialValue: userName,
-                  onChanged: (newValue) {
-                    userName = newValue;
-                    saveUserName(newValue);
-                  },
+                  readOnly: !isEditable,
                 ),
               ],
             ),
