@@ -1,10 +1,14 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:food_app/core/utils/colors.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../login&signup screens/login_screen.dart';
 import 'widgets/build_text_field.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -15,6 +19,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  bool switched = true;
   Uint8List? profileImage;
   String userName = 'Guest';
   String deliveryAddress = "10th of Ramadan";
@@ -110,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             child: Column(
               children: [
-                const SizedBox(height: 70),
+                const SizedBox(height: 90),
                 buildTextField(
                   label: 'Name',
                   controller: userNameController,
@@ -149,6 +154,131 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text(
+                      'appearance',
+                      style: TextStyle(
+                        color: const Color(0xff808080),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: GoogleFonts.roboto().fontFamily,
+                      ),
+                    ),
+                    const Spacer(),
+                    Switch(
+                      value: switched,
+                      activeColor: primaryColor,
+                      inactiveTrackColor: Colors.black,
+                      activeThumbImage:
+                          const AssetImage('assets/images/sun-transformed.png'),
+                      inactiveThumbImage: const AssetImage(
+                          'assets/images/moon-transformed.png'),
+                      onChanged: (value) {
+                        setState(
+                          () {
+                            switched = value;
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (builder) => AlertDialog(
+                        title: const Text(
+                          'Are you sure you want to log out?',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        actions: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: primaryColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                      builder: (context) => LoginScreen(),
+                                    ),
+                                    (route) => false,
+                                  );
+                                },
+                                child: const Text(
+                                  'Log out',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text(
+                                  'Cancel',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    width: MediaQuery.of(context).size.width,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: primaryColor, width: 2),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Log out',
+                          style: TextStyle(
+                            color: primaryColor,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Icon(Icons.logout, color: primaryColor, size: 30),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -156,20 +286,126 @@ class _ProfileScreenState extends State<ProfileScreen> {
             top: 90,
             left: 0,
             right: 0,
-            child: CircleAvatar(
-              radius: 63,
-              backgroundColor: primaryColor,
-              child: CircleAvatar(
-                radius: 60,
-                backgroundImage: profileImage != null
-                    ? MemoryImage(profileImage!)
-                    : const AssetImage('assets/images/no_image.webp')
-                        as ImageProvider,
+            child: Center(
+              child: Stack(
+                children: [
+                  CircleAvatar(
+                    radius: 63,
+                    backgroundColor: primaryColor,
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundImage: profileImage != null
+                          ? MemoryImage(profileImage!)
+                          : const AssetImage('assets/images/no_image.webp')
+                              as ImageProvider,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: -10,
+                    left: 80,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.camera_alt,
+                        color: primaryColor,
+                      ),
+                      onPressed: () {
+                        showImagePickerOption(context);
+                      },
+                      iconSize: 30,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> pickImageFromGallery() async {
+    final returnImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (returnImage == null) return;
+
+    String base64Image = base64Encode(File(returnImage.path).readAsBytesSync());
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('profileImage', base64Image);
+
+    setState(
+      () {
+        profileImage = File(returnImage.path).readAsBytesSync();
+      },
+    );
+  }
+
+  Future<void> pickImageFromCamera() async {
+    final returnImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    if (returnImage == null) return;
+
+    String base64Image = base64Encode(File(returnImage.path).readAsBytesSync());
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('profileImage', base64Image);
+
+    setState(
+      () {
+        profileImage = File(returnImage.path).readAsBytesSync();
+      },
+    );
+  }
+
+  void showImagePickerOption(BuildContext context) {
+    showModalBottomSheet(
+      backgroundColor: Colors.white,
+      context: context,
+      builder: (builder) {
+        return Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 5.5,
+            child: Row(
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      pickImageFromGallery();
+                    },
+                    child: const SizedBox(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.image, size: 70),
+                          Text("Gallery"),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      pickImageFromCamera();
+                    },
+                    child: const SizedBox(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.camera_alt, size: 70),
+                          Text("Camera"),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

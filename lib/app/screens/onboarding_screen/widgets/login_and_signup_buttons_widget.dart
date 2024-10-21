@@ -8,7 +8,7 @@ Widget loginandsignupbuttonswiget(BuildContext context) {
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: Column(
       children: [
-        InkWell(
+        GestureDetector(
           onTap: () {
             Navigator.pushNamedAndRemoveUntil(
               context,
@@ -36,7 +36,7 @@ Widget loginandsignupbuttonswiget(BuildContext context) {
             ),
           ),
         ),
-        InkWell(
+        GestureDetector(
           onTap: () {
             Navigator.pushNamedAndRemoveUntil(
               context,

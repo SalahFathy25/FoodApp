@@ -5,7 +5,7 @@ import '../../../../core/utils/colors.dart';
 Widget bottomButtonWidget(BuildContext context, String text) {
   return Container(
     alignment: Alignment.center,
-    margin: const EdgeInsets.symmetric(vertical: 20),
+    margin: const EdgeInsets.symmetric(vertical: 10),
     padding: const EdgeInsets.symmetric(vertical: 10),
     width: MediaQuery.of(context).size.width,
     decoration: BoxDecoration(
