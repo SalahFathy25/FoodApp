@@ -8,6 +8,7 @@ import 'package:food_app/app/screens/login&signup%20screens/widgets/text_form_wi
 
 import '../../../core/utils/colors.dart';
 import '../../../core/utils/variables.dart';
+import 'pick_image_screen.dart';
 import 'widgets/bottom_buttons_widget.dart';
 import 'widgets/logos_widget.dart';
 import 'widgets/or_text_widget.dart';
@@ -126,7 +127,33 @@ class SignupScreen extends StatelessWidget {
                     Password(textController: passwordController),
                     const SizedBox(height: 10),
                     Password(textController: password1Controller),
-                    InkWell(
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PickImageScreen(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryColor,
+                        minimumSize: Size(150, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        'Upload Image',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          ),
+                      ),
+                    ),
+                    GestureDetector(
                       onTap: () async {
                         if (formKey.currentState!.validate() != false) {
                           await SharedHelper().saveUserData(context, formKey);

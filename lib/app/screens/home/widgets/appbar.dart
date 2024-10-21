@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import '../../../../core/utils/colors.dart';
 
-Widget appBar() {
+Widget appBar({required String image}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -29,11 +31,9 @@ Widget appBar() {
         ),
         child: CircleAvatar(
           radius: 50,
-          backgroundColor: primaryColor,
-          child: Image.asset(
-            'assets/images/profile.png',
-            fit: BoxFit.cover,
-          ),
+          backgroundImage: image.isNotEmpty
+              ? MemoryImage(base64Decode(image))
+              : const AssetImage('assets/images/no_image.jpg') as ImageProvider,
         ),
       ),
     ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/app/screens/home/home_screen.dart';
 import 'package:food_app/app/screens/login&signup%20screens/login_screen.dart';
+import 'package:food_app/app/screens/login&signup%20screens/pick_image_screen.dart';
 import 'package:food_app/main_page.dart';
 
 // import 'app/screens/details_screen/details_screen.dart';
@@ -22,11 +23,14 @@ class MyApp extends StatelessWidget {
         '/register': (context) => SignupScreen(),
         '/signup': (context) => SignupScreen(),
         '/home': (context) => const HomeScreen(),
+        '/pickImage': (context) => const PickImageScreen(),
       },
       debugShowCheckedModeBanner: false,
       // home: const CircleAnimatedScreen(),
-      // home: const LoginScreen(),
-      home: const HomeScreen(),
+      // home: LoginScreen(),
+      home:  SignupScreen(),
+      // home: const PickImageScreen(),
+      // home: const HomeScreen(),
       // home: MainPage(),
     );
   }

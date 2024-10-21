@@ -45,6 +45,7 @@ dependencies:
   path_provider: ^2.1.4
   simple_floating_bottom_nav_bar: ^0.0.3
   animations: ^2.0.11
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
