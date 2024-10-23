@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     filteredItems = homeItemData;
-    loadProfileImage(); // Load image in initState
+    loadProfileImage();
   }
 
   Future<void> loadProfileImage() async {
@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: ListView(
             children: [
-              appBar(image: profileImage != null ? base64Encode(profileImage!) : ''), // Pass the image
+              homeAppBar(image: profileImage != null ? base64Encode(profileImage!) : ''),
               SearchArea(onSearchChanged: filterItems),
               CategoriesPart(
                 onCategorySelected: filterButtonsItems,

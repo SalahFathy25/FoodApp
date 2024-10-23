@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/colors.dart';
 
 class Password extends StatefulWidget {
+  final TextEditingController textController;
+  final String text;
   const Password({
     super.key,
     required this.textController,
+    required this.text,
   });
-  final TextEditingController textController;
 
   @override
   State<Password> createState() => _PasswordState();
@@ -36,11 +38,9 @@ class _PasswordState extends State<Password> {
         if (!RegExp(r'[0-9]').hasMatch(value)) {
           return 'Password must contain at least one number';
         }
-
         if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
           return 'Password must contain at least one special character';
         }
-
         return null;
       },
       onSaved: (value) {
@@ -51,7 +51,7 @@ class _PasswordState extends State<Password> {
       obscureText: isObscure,
       keyboardType: TextInputType.visiblePassword,
       decoration: InputDecoration(
-        hintText: 'Password',
+        hintText: widget.text,
         hintStyle: const TextStyle(color: smallTextColor),
         prefixIcon: const Icon(CupertinoIcons.lock),
         suffixIcon: IconButton(

@@ -19,7 +19,7 @@ import 'widgets/logos_widget.dart';
 import 'widgets/or_text_widget.dart';
 
 class SignupScreen extends StatefulWidget {
-  SignupScreen({super.key});
+  const SignupScreen({super.key});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -258,9 +258,15 @@ class _SignupScreenState extends State<SignupScreen> {
                       },
                     ),
                     const SizedBox(height: 10),
-                    Password(textController: passwordController),
+                    Password(
+                      textController: passwordController,
+                      text: 'password',
+                    ),
                     const SizedBox(height: 10),
-                    Password(textController: password1Controller),
+                    Password(
+                      textController: password1Controller,
+                      text: 'Confirm password',
+                    ),
                     const SizedBox(height: 20),
                     // ElevatedButton(
                     //   onPressed: () {
@@ -290,12 +296,30 @@ class _SignupScreenState extends State<SignupScreen> {
 
                     GestureDetector(
                       onTap: () async {
-                        if (formKey.currentState!.validate() != false) {
-                          await SharedHelper().saveUserData(context, formKey);
+                        if (password1Controller.text ==
+                            passwordController.text) {
+                          if (formKey.currentState!.validate()) {
+                            await SharedHelper().saveUserData(context, formKey);
+                          }
+                        } else {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return Container(
+                                padding: const EdgeInsets.all(16),
+                                child: const Text(
+                                  'Please make sure the passwords match.',
+                                  style: TextStyle(
+                                      color: Colors.red, fontSize: 16),
+                                ),
+                              );
+                            },
+                          );
                         }
                       },
                       child: bottomButtonWidget(context, 'Sign Up'),
                     ),
+
                     const SizedBox(height: 20),
                     orTextWidget(context),
                     const SizedBox(height: 20),

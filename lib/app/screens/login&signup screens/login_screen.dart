@@ -12,7 +12,7 @@ import '../../../core/utils/variables.dart';
 import 'widgets/bottom_buttons_widget.dart';
 import 'widgets/or_text_widget.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatelessWidget{
   LoginScreen({super.key});
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -72,12 +72,17 @@ class LoginScreen extends StatelessWidget {
                       },
                     ),
                     const SizedBox(height: 10),
-                    Password(textController: passwordController),
+                    Password(
+                      textController: passwordController,
+                      text: 'Password',
+                    ),
                     InkWell(
                       onTap: () async {
-                        if (formKey.currentState!.validate() != false) {
+                        if (formKey.currentState!.validate()) {
                           formKey.currentState!.save();
-                          await SharedHelper().loadUserData(context);
+                          if(context.mounted){
+                            await SharedHelper().loadUserData(context);
+                          }
                         }
                       },
                       child: bottomButtonWidget(context, 'Login'),

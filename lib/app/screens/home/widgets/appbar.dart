@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../../../core/utils/colors.dart';
 
-Widget appBar({required String image}) {
+Widget homeAppBar({required String image}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [

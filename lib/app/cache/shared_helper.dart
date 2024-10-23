@@ -7,9 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/utils/functions.dart';
 import '../../core/utils/variables.dart';
 
-final SharedPreferences prefs =
-    SharedPreferences.getInstance() as SharedPreferences;
-
 class SharedHelper {
   Future<String> saveUserData(
       BuildContext context, GlobalKey<FormState> formKey) async {
@@ -19,8 +16,10 @@ class SharedHelper {
     prefs.setString('email', emailController.text);
     prefs.setString('password', passwordController.text);
 
-    if (formKey.currentState!.validate() != false) {
-      signupSuccess(context);
+    if (formKey.currentState!.validate()) {
+      if (context.mounted) {
+        signupSuccess(context);
+      }
     }
 
     return emailController.text +
@@ -38,17 +37,35 @@ class SharedHelper {
 
     if (savedEmail == emailController.text &&
         savedPassword == passwordController.text) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => MainPage()),
-        (route) => false,
-      );
+      if (context.mounted) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => MainPage()),
+          (route) => false,
+        );
+      }
       welcome(context, savedName);
     } else if (savedEmail!.isEmpty || savedPassword!.isEmpty) {
-      emptyFieldsWarning(context);
+      if (context.mounted) {
+        emptyFieldsWarning(context);
+      }
     } else {
-      loginFailed(context);
+      if (context.mounted) {
+        loginFailed(context);
+      }
     }
     return savedName.trim();
+  }
+
+  Future<bool> saveTheme(String theme) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('theme', theme);
+    return true;
+  }
+
+  Future<String?> getTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? theme = prefs.getString('theme');
+    return theme;
   }
 }

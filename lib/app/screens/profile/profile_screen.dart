@@ -3,6 +3,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_app/app/cubit/app_cubit.dart';
 import 'package:food_app/core/utils/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -97,6 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var bloc = context.read<AppCubit>();
     return Scaffold(
       backgroundColor: primaryColor,
       body: Stack(
@@ -167,18 +170,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     const Spacer(),
-                    Switch(
-                      value: switched,
-                      activeColor: primaryColor,
-                      inactiveTrackColor: Colors.black,
-                      activeThumbImage:
-                          const AssetImage('assets/images/sun-transformed.png'),
-                      inactiveThumbImage: const AssetImage(
-                          'assets/images/moon-transformed.png'),
-                      onChanged: (value) {
-                        setState(
-                          () {
-                            switched = value;
+                    BlocBuilder<AppCubit, AppState>(
+                      builder: (context, state) {
+                        var cubit = BlocProvider.of<AppCubit>(context);
+                        return Switch(
+                          value: bloc.theme == "dark",
+                          activeColor: primaryColor,
+                          inactiveTrackColor: Colors.black,
+                          activeThumbImage: const AssetImage(
+                            'assets/images/sun-transformed.png',
+                          ),
+                          inactiveThumbImage: const AssetImage(
+                            'assets/images/moon-transformed.png',
+                          ),
+                          onChanged: (value) {
+                            cubit.changeTheme(value ? "dark" : "light");
                           },
                         );
                       },
